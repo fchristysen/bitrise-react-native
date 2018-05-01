@@ -1,6 +1,6 @@
 import { Container } from "unstated";
 
-export class UserContainer extends Container {
+export default class UserContainer extends Container {
     state = {
         userToken: ""
         , userProfile: {}

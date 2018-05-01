@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button, FormLabel, FormInput } from 'react-native-elements';
 import { Subscribe } from 'unstated';
-import { UserContainer } from '../container/UserContainer';
+import UserContainer from '../container/UserContainer';
 import UserKey from '../../key';
 
 class InnerLogin extends React.Component {
@@ -41,7 +41,7 @@ class InnerLogin extends React.Component {
         ...this.state,
         message: null
       });
-      this.props.navigate('Build');
+      this.props.navigate('Apps');
     }else{
       console.log("Failed");
       this.setState({

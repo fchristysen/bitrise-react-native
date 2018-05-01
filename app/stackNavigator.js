@@ -1,14 +1,14 @@
 import {StackNavigator} from 'react-navigation';
-import LoginScreen from './login/Login';
-import BuildScreen from './build/Build';
+import LoginScreen from './view/Login';
+import AppsScreen from './view/Apps';
 
 export default StackNavigator(
     {
         Login: {
             screen: LoginScreen
         }
-        , Build: {
-            screen: BuildScreen
+        , Apps: {
+            screen: AppsScreen
         }
     }, {
         initialRouteName: 'Login'

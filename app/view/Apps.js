@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, Button, View } from 'react-native';
 
-export default class Build extends React.Component {
+export default class Apps extends React.Component {
   render() {
     return (
       <View style={styles.container}>
