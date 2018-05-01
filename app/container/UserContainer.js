@@ -6,8 +6,10 @@ export default class UserContainer extends Container {
         , userProfile: {}
     };
 
-    // calling api /me to test if provided auth token is valid
-    // return boolean; true if auth is valid
+    /** https://devcenter.bitrise.io/api/v0.1/#get-me
+     *  Calling api /me to test if provided pToken is valid
+     *  return boolean; true if auth is valid
+     */
     async login(pToken) {
         try {
             const resp = await fetch('https://api.bitrise.io/v0.1/me', {

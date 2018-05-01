@@ -10,7 +10,7 @@ class InnerLogin extends React.Component {
     super(props);
     this.state = {
       apiKey: UserKey,
-      message: null, 
+      message: null,
     }
   }
 
@@ -21,7 +21,7 @@ class InnerLogin extends React.Component {
         <FormLabel>API Token</FormLabel>
         <FormInput value={this.state.apiKey} onChangeText={this.handleChange} />
         <Button rounded={true} backgroundColor={"#3bc3a3"} title="Login" onPress={this.onLoginResult} />
-        <Text>{this.state.message?this.state.message:""}</Text>
+        <Text>{this.state.message ? this.state.message : ""}</Text>
       </View>
     );
   }
@@ -29,20 +29,20 @@ class InnerLogin extends React.Component {
   handleChange = (value) => {
     this.setState({
       ...this.state,
-      apiKey : value,
+      apiKey: value,
     });
   }
 
   onLoginResult = async () => {
     var result = await this.props.user.login(this.state.apiKey);
-    if(result){
+    if (result) {
       console.log("Success");
       this.setState({
         ...this.state,
         message: null
       });
       this.props.navigate('Apps');
-    }else{
+    } else {
       console.log("Failed");
       this.setState({
         ...this.state,
@@ -65,7 +65,7 @@ export default function Login(props) {
   return (
     <Subscribe to={[UserContainer]}>
       {user => (
-        <InnerLogin user={user} navigate={props.navigation.navigate}/>
+        <InnerLogin user={user} navigate={props.navigation.navigate} />
       )}
     </Subscribe>
   )
