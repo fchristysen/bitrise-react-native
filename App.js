@@ -1,9 +1,12 @@
 import React from 'react';
 import RootStack from './app/stackNavigator'
-// import RootStack from './app/build/Build'
+import { Provider } from 'unstated'
 
-export default class App extends React.Component{
+export default class App extends React.Component {
   render() {
-    return <RootStack />;
+    return (
+      <Provider>
+        <RootStack />
+      </Provider>);
   }
 }

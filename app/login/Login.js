@@ -1,34 +1,54 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button, FormLabel, FormInput } from 'react-native-elements';
-import { Provider, Subscribe } from 'unstated';
+import { Subscribe } from 'unstated';
 import { UserContainer } from '../container/UserContainer';
 import UserKey from '../../key';
 
-export default class Login extends React.Component {
-  constructor(props){
+class InnerLogin extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       apiKey: UserKey,
+      message: null, 
     }
   }
 
   render() {
     return (
-      <Provider>
-        <Subscribe to={[UserContainer]}>
-          {user => (
-            <View style={styles.container}>
-              <Text>Bitrise React Native</Text>
-              <FormLabel>API Token</FormLabel>
-              <FormInput>{this.state.apiKey}</FormInput>
-              <Button rounded={true} backgroundColor={"#3bc3a3"} title="Login" onPress={() => user.login(this.state.apiKey)} />
-              {/* <Text>{JSON.stringify(user.state.userProfile.username)}</Text> */}
-            </View>
-          )}
-        </Subscribe>
-      </Provider>
+      <View style={styles.container}>
+        <Text>Bitrise React Native</Text>
+        <FormLabel>API Token</FormLabel>
+        <FormInput value={this.state.apiKey} onChangeText={this.handleChange} />
+        <Button rounded={true} backgroundColor={"#3bc3a3"} title="Login" onPress={this.onLoginResult} />
+        <Text>{this.state.message?this.state.message:""}</Text>
+      </View>
     );
+  }
+
+  handleChange = (value) => {
+    this.setState({
+      ...this.state,
+      apiKey : value,
+    });
+  }
+
+  onLoginResult = async () => {
+    var result = await this.props.user.login(this.state.apiKey);
+    if(result){
+      console.log("Success");
+      this.setState({
+        ...this.state,
+        message: null
+      });
+      this.props.navigate('Build');
+    }else{
+      console.log("Failed");
+      this.setState({
+        ...this.state,
+        message: "Incorrect API Key"
+      });
+    }
   }
 }
 
@@ -40,3 +60,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default function Login(props) {
+  return (
+    <Subscribe to={[UserContainer]}>
+      {user => (
+        <InnerLogin user={user} navigate={props.navigation.navigate}/>
+      )}
+    </Subscribe>
+  )
+}
