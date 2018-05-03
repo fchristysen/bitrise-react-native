@@ -5,7 +5,10 @@ import AppsScreen from './view/Apps';
 export default StackNavigator(
     {
         Login: {
-            screen: LoginScreen
+            screen: LoginScreen,
+            navigationOptions: {
+                header: null
+            }
         }
         , Apps: {
             screen: AppsScreen
