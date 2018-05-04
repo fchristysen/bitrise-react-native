@@ -17,7 +17,6 @@ export default class AppsContainer extends Container {
                 })
             })
             const respBody = await resp.json()
-
             if (respBody.data != null) {
                 this.setState({
                     ...this.state,

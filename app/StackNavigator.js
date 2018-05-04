@@ -11,7 +11,10 @@ export default StackNavigator(
             }
         }
         , Apps: {
-            screen: AppsScreen
+            screen: AppsScreen,
+            navigationOptions: {
+                title: 'Apps'
+            }
         }
     }, {
         initialRouteName: 'Login'

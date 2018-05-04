@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, FlatList, Button, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, FlatList, Button, View } from 'react-native';
 import { Subscribe } from 'unstated';
 import UserContainer from '../container/UserContainer';
 import AppsContainer from '../container/AppsContainer';
@@ -9,35 +9,48 @@ class InnerApps extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      //use as dummy data
-      apps: [
-      ]
+      apps: null,
+      refreshing: false,
     }
+  }
+
+  componentDidMount(){
+    this.onRefresh()
+  }
+
+  onItemClick(item){
+    console.log(item.title);
+  }
+
+  async onRefresh(){
+    this.setState({
+        ...this.state,
+        refreshing: true,
+    })
+    var result = await this.props.apps.getApps(this.props.user.state.userToken);
+    this.setState({
+        ...this.state,
+        apps: result,
+        refreshing: false,
+    })
   }
 
   render() {
     return (
-      <View style={styles.container}>
         <FlatList
           data={this.state.apps}
           keyExtractor={item => item.slug}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.refreshing}
           renderItem={({ item }) =>
-            <AppCard title={item.title} owner={item.owner.name} type={item.project_type}></AppCard>
+            <TouchableOpacity onPress={() => {this.onItemClick(item)}}>
+                <AppCard title={item.title} owner={item.owner.name} type={item.project_type}></AppCard>
+            </TouchableOpacity>
           }
         />
-      </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default function Apps(props) {
   return (
