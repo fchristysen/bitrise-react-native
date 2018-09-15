@@ -1,6 +1,6 @@
 import { Container } from 'unstated'
 
-export class BuildContainer extends Container {
+export default class BuildContainer extends Container {
 	state = {
 		builds: []
 	};

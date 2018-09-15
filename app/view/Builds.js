@@ -2,9 +2,8 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, FlatList, Button, View } from 'react-native';
 import { Subscribe } from 'unstated';
 import UserContainer from '../container/UserContainer';
-import AppsContainer from '../container/AppsContainer';
-import { AppCard } from '../widget/AppCard';
-import { BuildContainer } from '../container/BuildContainer';
+import BuildContainer from '../container/BuildContainer';
+import { BuildCard } from '../widget/BuildCard';
 
 class InnerBuilds extends React.Component {
 
@@ -13,7 +12,7 @@ class InnerBuilds extends React.Component {
     this.state = {
       builds: null,
       appSlug: this.props.navigation.getParam('slug', ''),
-      onRefresh: false
+      refreshing: false
     }
   }
 
@@ -24,21 +23,29 @@ class InnerBuilds extends React.Component {
   async onRefresh() {
     this.setState({
       ...this.state,
-      onRefresh: true
+      refreshing: true
     })
     var result = await this.props.buildContainer.getBuilds(this.props.userContainer.state.userToken, this.state.appSlug)
     this.setState({
       ...this.state,
       builds: result,
-      onRefresh: false,
+      refreshing: false,
     })
   }
 
   render() {
     return (
-      <View>
-        <Text>{JSON.stringify(this.state.builds)}</Text>
-      </View>
+      <FlatList
+        data={this.state.builds}
+        keyExtractor={item => item.build_number}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.refreshing}
+        renderItem={({ item }) =>
+          <TouchableOpacity onPress={() => { this.onItemClick(item) }}>
+            <BuildCard build={item}></BuildCard>
+          </TouchableOpacity>
+        }
+      />
     );
   }
 }
