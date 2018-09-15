@@ -14,40 +14,40 @@ class InnerApps extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.onRefresh()
   }
 
-  onItemClick(item){
-    console.log(item.title);
+  onItemClick(item) {
+    this.props.navigate("Builds", item)
   }
 
-  async onRefresh(){
+  async onRefresh() {
     this.setState({
-        ...this.state,
-        refreshing: true,
+      ...this.state,
+      refreshing: true,
     })
     var result = await this.props.apps.getApps(this.props.user.state.userToken);
     this.setState({
-        ...this.state,
-        apps: result,
-        refreshing: false,
+      ...this.state,
+      apps: result,
+      refreshing: false,
     })
   }
 
   render() {
     return (
-        <FlatList
-          data={this.state.apps}
-          keyExtractor={item => item.slug}
-          onRefresh={() => this.onRefresh()}
-          refreshing={this.state.refreshing}
-          renderItem={({ item }) =>
-            <TouchableOpacity onPress={() => {this.onItemClick(item)}}>
-                <AppCard title={item.title} owner={item.owner.name} type={item.project_type}></AppCard>
-            </TouchableOpacity>
-          }
-        />
+      <FlatList
+        data={this.state.apps}
+        keyExtractor={item => item.slug}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.refreshing}
+        renderItem={({ item }) =>
+          <TouchableOpacity onPress={() => { this.onItemClick(item) }}>
+            <AppCard title={item.title} owner={item.owner.name} type={item.project_type}></AppCard>
+          </TouchableOpacity>
+        }
+      />
     );
   }
 }
